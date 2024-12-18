@@ -16,7 +16,7 @@ resource "aws_internet_gateway" "main" {
 resource "aws_subnet" "subnet1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-west-2a"
+  availability_zone = "us-east-1a"  # Correct the availability zone to match the region
 }
 
 # Create a security group (firewall) allowing SSH and HTTP
