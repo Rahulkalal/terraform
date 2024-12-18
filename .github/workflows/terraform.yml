@@ -1,0 +1,33 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest  # Runs on a Linux environment
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Checkout the code
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2  # Set up Terraform
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}  # Using AWS Access Key from GitHub Secrets
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # Using AWS Secret Key from GitHub Secrets
+          aws-region: "us-west-2"  # Specify your AWS region here
+
+      - name: Terraform Init
+        run: terraform init  # Initialize Terraform
+
+      - name: Terraform Plan
+        run: terraform plan  # Check what changes will be made
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve  # Apply the changes without asking for confirmation
