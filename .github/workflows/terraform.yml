@@ -7,7 +7,7 @@ on:
 
 jobs:
   terraform:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Runs on a Linux environment
 
     steps:
       - name: Checkout repository
@@ -21,16 +21,16 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-1"
-
-      - name: Change directory to terraform folder
-        run: cd terraform  # Change to the folder where your Terraform config is
+          aws-region: "us-west-2"
 
       - name: Terraform Init
-        run: terraform init  # Initialize Terraform
+        run: terraform init
+        working-directory: terraform  # Run Terraform commands inside the terraform folder
 
       - name: Terraform Plan
-        run: terraform plan  # Check what changes will be made
+        run: terraform plan
+        working-directory: terraform  # Run Terraform commands inside the terraform folder
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve  # Apply the changes without asking for confirmation
+        run: terraform apply -auto-approve
+        working-directory: terraform  # Run Terraform commands inside the terraform folder
